@@ -74,7 +74,6 @@
     getProductsByName('')
     .catch(e=>console.log(e))
     .then(data=>{
-        console.log(data);
         var products = document.getElementById('products');
         products.innerHTML="";
         data.products.forEach( item=> {
@@ -83,45 +82,38 @@
             option.text = item.name;
             products.appendChild(option);
         })
-    });
-
-    getUsersByName('')
-    .catch(e=>console.log(e))
-    .then(data=>{
-        var users = document.getElementById('users');
-        users.innerHTML="";
-        data.users.forEach( item=> {
-            var option = document.createElement('option');
+    }).then(data=>{
+        getUsersByName('')
+        .catch(e=>console.log(e))
+        .then(data=>{
+            var users = document.getElementById('users');
+            users.innerHTML="";
+            data.users.forEach( item=> {
+                var option = document.createElement('option');
             option.value = item.id;
             option.text = item.firstName+' '+item.lastName;
             users.appendChild(option);
-        })
-    });
+            })
+        }).then(data=>{
+                if(id) { // edit order
+                    getOrder(id)
+                        .catch(e=>console.log(e))
+                .then(data=>{
+                        console.log(data.order);
+                    document.getElementById('products').value=data.order.product.id;
+
+                    document.getElementById('users').value=data.order.user.id;
+                    document.getElementById('price').value=data.order.price;
+                    document.getElementById('quantity').value=data.order.quantity;
+                });
+                }
+    })
+    })
 
 
-    if(id) { // edit order
-        getOrder(id)
-        .catch(e=>console.log(e))
-        .then(data=>{
-            console.log(data.order);
-            //document.getElementById('products').value=data.order.product.id;
-            for (const option of document.getElementById('products')) {
-                if(option.value==data.order.product.id){
-                    option.selected=true;
-                };
-            }
 
-            //document.getElementById('users').value=data.order.user.id;
-            for (const option of document.getElementById('users')) {
-                if(option.value==data.order.user.id){
-                    option.selected=true;
-                };
-            }
 
-            document.getElementById('price').value=data.order.price;
-            document.getElementById('quantity').value=data.order.quantity;
-        });
-    }
+
 
 
 </script>
