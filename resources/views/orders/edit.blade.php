@@ -104,8 +104,20 @@
         .catch(e=>console.log(e))
         .then(data=>{
             console.log(data.order);
-            document.getElementById('products').value=data.order.product.id;
-            document.getElementById('users').value=data.order.user.id;
+            //document.getElementById('products').value=data.order.product.id;
+            for (const option of document.getElementById('products')) {
+                if(option.value==data.order.product.id){
+                    option.selected=true;
+                };
+            }
+
+            //document.getElementById('users').value=data.order.user.id;
+            for (const option of document.getElementById('users')) {
+                if(option.value==data.order.user.id){
+                    option.selected=true;
+                };
+            }
+
             document.getElementById('price').value=data.order.price;
             document.getElementById('quantity').value=data.order.quantity;
         });
